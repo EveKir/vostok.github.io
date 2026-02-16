@@ -1,0 +1,1458 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Искусство Средневекового Востока</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif; /* Шрифт с засечками для историчности */
+            /* Бежево-песочный градиент */
+            background: linear-gradient(135deg, #fdfbf7 0%, #e6d5b8 100%);
+            color: #4b3621; /* Темно-коричневый цвет текста */
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(139, 69, 19, 0.1);
+            border: 1px solid #d2b48c;
+        }
+
+        h1 {
+            color: #8b4513; /* Цвет седла/кожи */
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            color: #a0522d; /* Сиена */
+            font-size: 1.1em;
+            font-style: italic;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 12px 28px;
+            background: #fff;
+            border: 2px solid #d2b48c; /* Тан (светло-коричневый) */
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: #8b4513;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(139, 69, 19, 0.1);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .nav-btn:hover {
+            background: #d2b48c;
+            color: white;
+            border-color: #8b4513;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: #8b4513;
+            color: white;
+            border-color: #5e2f0d;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .search-box {
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(139, 69, 19, 0.08);
+            border: 1px solid #e0dcd0;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 1em;
+            border: 2px solid #d2b48c;
+            border-radius: 8px;
+            background: #fffaf0; /* Цветочная белизна */
+            color: #4b3621;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #8b4513;
+            background: #fff;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(75, 54, 33, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #efeadd;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(139, 69, 19, 0.2);
+            border-color: #d2b48c;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 240px;
+            /* Градиент для заглушки */
+            background: linear-gradient(135deg, #d2b48c 0%, #deb887 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: #5e2f0d;
+            margin-bottom: 8px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .card-artist {
+            font-size: 1em;
+            color: #a0522d;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .card-year {
+            font-size: 0.9em;
+            color: #887b6f;
+        }
+
+        /* Flashcards Styles */
+        .flashcard-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+            perspective: 1000px;
+        }
+
+        .flashcard {
+            width: 100%;
+            max-width: 600px;
+            height: 450px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: #fff;
+            border: 1px solid #d2b48c;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(75, 54, 33, 0.15);
+        }
+
+        .flashcard-back {
+            transform: rotateY(180deg);
+            background: #fffaf0; /* Слегка желтоватый фон для оборота */
+        }
+
+        .flashcard-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .flashcard-controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            justify-content: center;
+        }
+
+        .control-btn {
+            padding: 12px 24px;
+            background: #8b4513;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .control-btn:hover {
+            background: #a0522d;
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            background: #fff;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 10px 40px rgba(75, 54, 33, 0.12);
+            border: 1px solid #d2b48c;
+        }
+
+        .quiz-question {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #4b3621;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .quiz-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            background: linear-gradient(135deg, #d2b48c 0%, #deb887 100%);
+            margin: 0 auto 30px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            color: #fff;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .quiz-option {
+            padding: 18px 24px;
+            background: #fffaf0;
+            border: 2px solid #e6d5b8;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.05em;
+            text-align: center;
+            color: #4b3621;
+        }
+
+        .quiz-option:hover {
+            background: #fdfbf7;
+            border-color: #8b4513;
+        }
+
+        .quiz-option.selected {
+            background: #8b4513;
+            color: white;
+            border-color: #8b4513;
+        }
+
+        .quiz-option.correct {
+            background: #556b2f; /* Оливковый зеленый */
+            color: white;
+            border-color: #556b2f;
+        }
+
+        .quiz-option.incorrect {
+            background: #cd5c5c; /* Индийский красный */
+            color: white;
+            border-color: #cd5c5c;
+        }
+
+        .quiz-score {
+            font-size: 2em;
+            color: #8b4513;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .quiz-result {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        /* Reference Filters */
+        .reference-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: #fff;
+            border: 2px solid #d2b48c;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95em;
+            color: #5e2f0d;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #8b4513;
+            color: white;
+            border-color: #8b4513;
+        }
+
+        .image-placeholder {
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8em; }
+            .cards-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+            .quiz-container { padding: 25px; }
+            .flashcard { max-width: 100%; height: 400px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Искусство Средневекового Востока</h1>
+            <p class="subtitle">Япония</p>
+        </header>
+
+        <div class="nav-buttons">
+            <button class="nav-btn active" onclick="showSection('cards')">🏛️ Галерея</button>
+            <button class="nav-btn" onclick="showSection('flashcards')">🃏 Флэш-карточки</button>
+            <button class="nav-btn" onclick="showSection('quiz')">🎯 Викторина</button>
+            <button class="nav-btn" onclick="showSection('reference')">📜 Справочник</button>
+        </div>
+
+        <section id="cards" class="section active">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Поиск по названию, стране или веку..." oninput="filterCards()">
+            </div>
+            <div class="cards-grid" id="cardsGrid"></div>
+        </section>
+
+        <section id="flashcards" class="section">
+            <div class="flashcard-container">
+                <div class="flashcard" id="flashcard" onclick="flipCard()">
+                    <div class="flashcard-face">
+                        <div class="card-image" id="flashcardImage">🖼️</div>
+                        <div class="flashcard-info">
+                            <div class="card-title" id="flashcardTitle"></div>
+                            <p style="color: #887b6f; margin-top: 10px;">Нажмите, чтобы узнать памятник</p>
+                        </div>
+                    </div>
+                    <div class="flashcard-face flashcard-back">
+                        <div style="text-align: center;">
+                            <div class="card-artist" id="flashcardArtist" style="font-size: 1.5em; margin-bottom: 15px;"></div>
+                            <div class="card-year" id="flashcardYear" style="font-size: 1.2em;"></div>
+                            <div id="flashcardDescription" style="margin-top: 20px; color: #4b3621; line-height: 1.6;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flashcard-controls">
+                <button class="control-btn" onclick="previousCard()">⬅️ Назад</button>
+                <button class="control-btn" onclick="nextCard()">Вперед ➡️</button>
+                <button class="control-btn" onclick="shuffleCards()">🔀 Случайно</button>
+            </div>
+        </section>
+
+        <section id="quiz" class="section">
+            <div class="quiz-container">
+                <div id="quizContent">
+                    <div class="quiz-question" id="quizQuestion"></div>
+                    <div class="quiz-image" id="quizImage"></div>
+                    <div class="quiz-options" id="quizOptions"></div>
+                    <div class="quiz-result" id="quizResult"></div>
+                </div>
+                <div style="text-align: center; margin-top: 25px;">
+                    <button class="control-btn" onclick="nextQuestion()" id="nextBtn">Следующий вопрос</button>
+                    <button class="control-btn" onclick="restartQuiz()" id="restartBtn" style="display: none;">Начать заново</button>
+                </div>
+                <div class="quiz-score">Счёт: <span id="scoreDisplay">0</span> / <span id="totalDisplay">0</span></div>
+            </div>
+        </section>
+
+        <section id="reference" class="section">
+            <div class="search-box">
+                <input type="text" id="refSearchInput" placeholder="🔍 Поиск в справочнике..." oninput="filterReference()">
+            </div>
+            <div class="reference-filters">
+                <button class="filter-btn active" onclick="filterByCategory('all')">Все</button>
+                <button class="filter-btn" onclick="filterByCategory('region')">По регионам</button>
+                <button class="filter-btn" onclick="filterByCategory('year')">По времени</button>
+                <button class="filter-btn" onclick="filterByCategory('type')">По типу</button>
+            </div>
+            <div class="cards-grid" id="referenceGrid"></div>
+        </section>
+    </div>
+
+
+    <script>
+        // База данных памятников восточного искусства
+        const paintings = [
+            {
+                title: "Монах Гандзин",
+                artist: "",
+                region: "Храмовый комплекс Тосёдайдзи",
+                year: "Конец VIII в. Период Нара",
+                genre: "Скульптура",
+                description: "Слепой монах-миссионер. Реалистичный скульптурный портрет в технике сухого лака.Плыл 11 лет из Китая в Японию, потому что ему постоянно чтото мешало.",
+                image: "https://i0.wp.com/deus-ex-machina-ism.com/wp-content/uploads/2022/12/ganjin.jpg?w=960&ssl=1"
+            },
+            {
+                title: "Театр Кабуки",
+                artist: "Окумура Масанобу",
+                region: "",
+                year: "Период Эдо",
+                genre: "Гравюра (Укиё-э)",
+                description: "Перспективное изображение интерьера театра (Укиё-э). Актеры и зрители.",
+                image: "https://avatars.mds.yandex.net/i?id=d5e61fe51e6839a69182d0f30949594c062b72a4-5586433-images-thumbs&n=13"
+            },
+            {
+                title: "Мандала Тайдзокай",
+                artist: "",
+                region: "Монастырь Тодзи, Киото",
+                year: "Период Хэйан",
+                genre: "Живопись",
+                description: "Мандала Мира Чрева. Символическая схема вселенной в эзотерическом буддизме Сингон.",
+                image: "http://sculpture.artyx.ru/books/item/f00/s00/z0000000/pic/000080.jpg"
+            },
+            {
+                title: "Торо (Фонарь)",
+                artist: "",
+                region: "",
+                year: "Традиционный объект",
+                genre: "Малая архитектура",
+                description: "Каменный или бронзовый фонарь. Типовой объект в садах и при храмах.",
+                image: "https://upload.wikimedia.org/wikipedia/commons/5/5b/Horyu-ji43s3200.jpg"
+            },
+            {
+                title: "Монастырь Хорюдзи",
+                artist: "",
+                region: "Нара",
+                year: "Период Асука - Нара (VII в.)",
+                genre: "Архитектура",
+                description: "Древнейшие деревянные строения в мире. Центр буддизма, основанный принцем Сётоку Тайси.",
+                image: "https://www.ngjyra.com/test1/wp-content/uploads/2015/01/Horyu-ji-ballina1.jpg"
+            },
+            {
+                title: "Гэндзи-моногатари Эмакимоно",
+                artist: "Фудзивара Такаёси",
+                region: "",
+                year: "Нач. XII в. Период Хэйан",
+                genre: "Живопись (Эмаки)",
+                description: "Иллюстрации к роману. Прием «фукинуки ятай» (сорванная крыша).",
+                image: "https://upload.wikimedia.org/wikipedia/commons/d/d6/Genji_emaki_azumaya.jpg"
+            },
+            {
+                title: "Триада Хатимана",
+                artist: "",
+                region: "Святилище Якусидзи",
+                year: "Хэйан",
+                genre: "Скульптура (Синто)",
+                description: "Изображения бога Хатимана в монашеском одеянии, императрицы Дзингу и принцессы Накацу.",
+                image: "https://www.onmarkproductions.com/assets/images/autogen/a_hachiman-all-three-yakushiji-nara.jpg"
+            },
+            {
+                title: "Жизнеописание Сётоку Тайси",
+                artist: "Хатано Титэй",
+                region: "",
+                year: "Период Хэйан",
+                genre: "Живопись (Э-дэн)",
+                description: "Роспись ширм. Использование приема «фукинуки ятай» (вид сверху сквозь крышу).",
+                image: "https://upload.wikimedia.org/wikipedia/commons/7/70/Shotoku_taishi_eden_I_-_Hatano_Chitei_-_detail.png"
+            },
+            {
+                title: "Тамамуси-но-дзуси",
+                artist: "",
+                region: "Храм Хорюдзи",
+                year: "Период Нара",
+                genre: "Алтарь",
+                description: "«Ковчег». Роспись: минеральные краски и лаком: сцена кормления тигрицы.",
+                image: "https://img-fotki.yandex.ru/get/4401/sidr1977.40/0_3c33d_93b1e649_XL.jpg"
+            },
+            {
+                title: "Паринирвана Будды",
+                artist: "",
+                region: "Хорюдзи (Пагода)",
+                year: "Период Нара",
+                genre: "Скульптура",
+                description: "Гротескные фигуры плакальщиков в сцене смерти Будды. Раскрашенная необработанная глина.",
+                image: "https://i.pinimg.com/originals/b5/43/10/b54310e773305acc46ca2d209ddc7983.jpg"
+            },
+            {
+                title: "Павильон Феникса (Хоодо)",
+                artist: "",
+                region: "Храм Бёдо-ин, Удзи",
+                year: "Период Хэйан",
+                genre: "Архитектура",
+                description: "Храм Чистой Земли. Посвящён Будде Амиде. Легкость пропорций, отражение в пруду, статуи фениксов на крыше.",
+                image: "https://avatars.mds.yandex.net/i?id=688c29e0c5e83735a9a545d8f4966223_l-10730710-images-thumbs&n=13"
+            },
+            {
+                title: "Унтю Куйо Босацу",
+                artist: "",
+                region: "Храм Бёдо-ин, Удзи",
+                year: "Период Хэйан",
+                genre: "Скульптура",
+                description: "26 Бодхисаттвы на облаках. Деревянные рельефы на стенах Павильона Феникса. Бодхисаттвы либо играют на различных музыкальных инструментах, либо танцуют, либо держат в руках предметы",
+                image: "https://i.pinimg.com/originals/3c/a2/b2/3ca2b28692a3fe903205d78959571a61.jpg"
+            },
+            {
+                title: "Восточная пагода",
+                artist: "",
+                region: "Святилище Якусидзи",
+                year: "Период Нара",
+                genre: "Архитектура",
+                description: "Уникальная трехъярусная пагода с мокоси (дополнительными скатами), кажется шестиярусной.",
+                image: "https://upload.wikimedia.org/wikipedia/commons/9/94/YakushijiPagoda.jpg"
+            },
+            {
+                title: "Дзодзё-тэн",
+                artist: "",
+                region: "Храм Тодайдзи",
+                year: "Период Нара",
+                genre: "Скульптура",
+                description: "Страж Юга из группы Ситэнно. Символ роста и процветания.",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Todaiji_Monastery_Shitenno_of_Kaidanin_(Zochoten)_(227).jpg/1280px-Todaiji_Monastery_Shitenno_of_Kaidanin_(Zochoten)_(227).jpg"
+            },
+            {
+                title: "Тамон-тэн",
+                artist: "",
+                region: "Храм Тодайдзи",
+                year: "Период Нара",
+                genre: "Скульптура",
+                description: "Страж Севера (Бисямонтэн). Держит пагоду в руке.",
+                image: "https://upload.wikimedia.org/wikipedia/commons/2/2e/Todaiji_Monastery_Shitenno_of_Kaidanin_%28Tamonten%29_%28228%29.jpg"
+            },
+            {
+                title: "Страж веры (Сюконгосин)",
+                artist: "Школа Кэй",
+                region: "Храм Тодайдзи",
+                year: "Камакура",
+                genre: "Скульптура",
+                description: "Конго рикиси или Нио — два наполненных гневом мускулистых божеств-хранителей Будды.",
+                image: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Todaiji_Nandaimon_Agyō.jpg"
+            },
+            {
+                title: "Маска Гигаку «Гоко»",
+                artist: "",
+                region: "",
+                year: "Период Асука",
+                genre: "Маска",
+                description: "Деревянная маска для храмовых процессий. Характерные черты иноземца.",
+                image: "https://i.pinimg.com/originals/a1/2d/b4/a12db433fe367442335890daaa1c4596.jpg"
+            },
+            {
+                title: "Веер (Лотосовая сутра)",
+                artist: "",
+                region: "",
+                year: "Период Хэйан",
+                genre: "Живопись",
+                description: "Текст сутры поверх светской жанровой сцены. Стиль ямато-э.Лотосовая сутра» (Саддхармапундарика-сутра) — одна из известнейших и особо почитаемых махаянских сутр в Восточной Азии",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Senmen-kosyakyou.jpg/1280px-Senmen-kosyakyou.jpg"
+            },
+            {
+                title: "Барэн",
+                artist: "",
+                region: "",
+                year: "Период Эдо",
+                genre: "Инструмент",
+                description: "Диск из бамбуковых волокон для ручной печати гравюры укиё-э.",
+                image: "https://images.ctfassets.net/f1fikihmjtrp/6m9E11bnlPnZTM4jCTqP8c/a6511ec77eb7b70391ff157cc2b5ecb9/40120-1001-1-3ww-l.jpg"
+            },
+            {
+                title: "Вечерний снег (Камбара)",
+                artist: "Андо Хиросигэ",
+                region: "",
+                year: "Период Эдо",
+                genre: "Гравюра",
+                description: "Лирический пейзаж из серии «53 станции Токайдо». Тишина заснеженной деревни.",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Ando_Hiroshige_-_Kambara-_Evening_Snow_-_1940.984_-_Cleveland_Museum_of_Art.jpg/1280px-Ando_Hiroshige_-_Kambara-_Evening_Snow_-_1940.984_-_Cleveland_Museum_of_Art.jpg?20190128032809"
+            },
+            {
+                title: "Пагода Муродзи",
+                artist: "",
+                region: "Храма Муродзи, префектуры Нара",
+                year: "Период Хэйан",
+                genre: "Архитектура",
+                description: "Самая маленькая пятиярусная пагода под открытым небом. Вписана в горный лес.",
+                image: "https://i.pinimg.com/736x/81/55/d0/8155d06692860d060789c22e6a81cae6.jpg"
+            },
+            {
+                title: "Хякуманто Дарани",
+                artist: "Принц Сётоку Тайси",
+                region: "",
+                year: "Период Нара",
+                genre: "Ксилография",
+                description: "«Миллион пагод». Сутра, нанесённая ксилографическим путём. Один из древнейших образцов печатного текста в мире.",
+                image: "https://tricycle.org/wp-content/uploads/2019/12/buddhism-at-the-british-museum-hyakumanto.jpg"
+            },
+            {
+                title: "Великий Будда (Дайбуцу)",
+                artist: "",
+                region: "Храм Котоку-ин",
+                year: "Период Камакура",
+                genre: "Скульптура (Бронза)",
+                description: "Монументальная статуя Амиды под открытым небом. Внутри пустая.",
+                image: "https://7d9e88a8-f178-4098-bea5-48d960920605.selcdn.net/8d310d64-b272-4d0f-8a09-4aa937594bc4/-/format/webp/-/scale_crop/1024x768/center/-/quality/smart_retina/"
+            },
+            {
+                title: "Минамото-но Ёритомо",
+                artist: "",
+                region: "",
+                year: "Период Камакура",
+                genre: "Скульптура",
+                description: "Деревянная портретная статуя сёгуна в церемониальном облачении.",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Seated_Portrait_of_Minamoto_no_Yoritomo_Tokyo_National_Museum_2.jpg/1280px-Seated_Portrait_of_Minamoto_no_Yoritomo_Tokyo_National_Museum_2.jpg?20221030023636"
+            },
+            {
+                title: "Хэйдзи Моногатари",
+                artist: "",
+                region: "",
+                year: "Период Камакура",
+                genre: "Живопись (Эмакимоно)",
+                description: "Сказание о гражданской войне. Поездка императора В Рокухара",
+                image: "https://avatars.mds.yandex.net/i?id=cf697a42d4457fc3ea0cbcc073e54b1f_l-5384283-images-thumbs&n=13"
+            },
+            {
+                title: "Портрет Бодхидхармы",
+                artist: "Боккэй (?)",
+                region: "",
+                year: "Период Камакура",
+                genre: "Живопись (Дзен)",
+                description: "Образ первого патриарха дзен. Резкие линии, выразительный взгляд «смотрит в душу».",
+                image: "https://avatars.mds.yandex.net/i?id=f4bcfbe4aac0e09e97e3f776340c6f0c7da7b942-4033769-images-thumbs&n=13"
+            },
+            {
+                title: "Портрет Минамото Ёритомо",
+                artist: "Фудзивара Таканобу",
+                region: "",
+                year: "Период Камакура",
+                genre: "Живопись (Нисэ-э)",
+                description: "Классический парадный портрет сёгуна. исел в храме. Плоскостность, строгие линии, черный костюм. Минамото Ёритомо с ногами!",
+                image: "https://avatars.mds.yandex.net/i?id=1330cee1050a4a25b8bdeeb59e84ea4a_l-12624979-images-thumbs&n=13"
+            },
+            {
+                title: "Портрет Сигэмори",
+                artist: "Фудзивара Таканобу",
+                region: "",
+                year: "Период Камакура",
+                genre: "Живопись (Нисэ-э)",
+                description: "Портрет Сигэмори. Реалистичная передача черт лица (нет ног!).",
+                image: "https://avatars.mds.yandex.net/i?id=d9aa03ee1b2ed1fa8ba01e30961d1a062c9e80ce-10266040-images-thumbs&n=13"
+            },
+            {
+                title: "Монах Тёгэн",
+                artist: "",
+                region: "Храм Тодайдзи",
+                year: "Период Камакура",
+                genre: "Скульптура",
+                description: "Натуралистичный портрет пожилого монаха, восстановившего Тодай-дзи. Перебирает четки.",
+                image: "https://studfile.net/html/2706/164/html_hKmHOdFWby.USSw/htmlconvd-IWoM4W_html_311f44fe226abcbb.jpg"
+            },
+            {
+                title: "Мудзяку (Асанга)",
+                artist: "Ункэй",
+                region: "Храм кофукудзи",
+                year: "Период Камакура",
+                genre: "Скульптура",
+                description: "Шедевр реализма. Деревянная статуя индийского мыслителя.",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Kofukuji_Hokuendo_Muchaku_Unkei.jpg/960px-Kofukuji_Hokuendo_Muchaku_Unkei.jpg"
+            },
+            {
+                title: "Сандзюсангэн-до",
+                artist: "",
+                region: "",
+                year: "Период Камакура",
+                genre: "Архитектура",
+                description: "Зал тридцати трех пролетов. Самое длинное деревянное здание.",
+                image: "https://avatars.mds.yandex.net/i?id=3387805431c2713fde3a9237a321675369f55753-4237726-images-thumbs&n=13"
+            },
+            {
+                title: "1001 Каннон",
+                artist: "Танкэй и школа Кэй",
+                region: "Храм Сандзюсангэн-до",
+                year: "Период Камакура",
+                genre: "Скульптура",
+                description: "Лес статуй Тысячерукой Каннон в храме Сандзюсангэн-до.",
+                image: "https://avatars.mds.yandex.net/i?id=749336be29d57c04a6dacfd626dcbdcf_l-8312878-images-thumbs&n=13"
+            },
+            {
+                title: "Пейзаж Хабоку",
+                artist: "Сэссю Тойо",
+                region: "",
+                year: "Период Муромати",
+                genre: "Живопись (Суми-э)",
+                description: "«Лопнувшая тушь». Абстрактный пейзаж, созданный быстрыми мазками.",
+                image: "https://avatars.mds.yandex.net/i?id=38050fe34e27918d5f00ce5622d8e73b_l-4054754-images-thumbs&n=13"
+            },
+            {
+                title: "Фудо Мёо",
+                artist: "",
+                region: "",
+                year: "Период Хэйан",
+                genre: "Скульптура",
+                description: "«Неподвижный». Гневное божество с мечом и арканом, стоящее в огне.",
+                image: "https://i.pinimg.com/736x/c5/88/e3/c588e3db37afbcc74c28eabb2d3e7fef.jpg"
+            },
+            {
+                title: "Кудзяку Мёо",
+                artist: "",
+                region: "",
+                year: "Период Хэйан",
+                genre: "Живопись",
+                description: "«Павлиний король». Божество верхом на павлине. Изысканный колорит.",
+                image: "https://avatars.mds.yandex.net/i?id=63291e7b68ff915702b2d03f057fc58a202fb4ef-16242408-images-thumbs&n=13"
+            },
+            {
+                title: "Легенды горы Сиги",
+                artist: "",
+                region: "",
+                year: "Период Хэйан",
+                genre: "Живопись (Эмакимоно)",
+                description: "Сюжет о летающем амбаре. Динамика, юмор, непрерывное повествование.",
+                image: "https://avatars.mds.yandex.net/i?id=72256001905ef78eb6f7c60d5a68df30_l-5112030-images-thumbs&n=13"
+            },
+            {
+                title: "Дзигоку-дзоси",
+                artist: "",
+                region: "",
+                year: "Период Хэйан",
+                genre: "Живопись",
+                description: "«Свиток адов». Пугающие сцены буддийского ада. Тема «маппо» (конца света).",
+                image: "https://upload.wikimedia.org/wikipedia/commons/1/10/Jigoku-Zoushi.jpg"
+            },
+            {
+                title: "Дотаку",
+                artist: "",
+                region: "",
+                year: "Период Яёй",
+                genre: "Бронза",
+                description: "Ритуальный бронзовый колокол. Украшен примитивными рисунками.",
+                image: "https://avatars.mds.yandex.net/i?id=6626c1d42ecb2405523d39b473cde93e_sr-4820594-images-thumbs&n=13"
+            },
+            {
+                title: "Триада Сяка Нёрай",
+                artist: "Тори Бусси",
+                region: "Храм Хорюдзи",
+                year: "Период Асука",
+                genre: "Скульптура (Бронза)",
+                description: "Будда Шакьямуни с бодхисаттвами. «Стиль Тори»: архаичная улыбка, плоскостные складки.Ласточкин хвост",
+                image: "https://i.pinimg.com/736x/26/f2/d3/26f2d34db7872fc3d74ab7ebbeb22d54.jpg"
+            },
+            {
+                title: "Алтарь Татибана",
+                artist: "",
+                region: "Храм Хорюдзи",
+                year: "Период Асука",
+                genre: "Бронза",
+                description: "Личный переносной алтарь госпожи Татибана. Амида на лотосах.",
+                image: "https://i.pinimg.com/originals/66/ff/95/66ff951d3ae16fcf021fe0e15cdbd306.jpg"
+            },
+            {
+                title: "Кудара Каннон",
+                artist: "",
+                region: "Храм Хорюдзи",
+                year: "Период Асука",
+                genre: "Скульптура (Дерево)",
+                description: "Высокая стройная фигура («Кудара» = Пэкче, Корея). Изящный силуэт.Ласточкин хвост",
+                image: "https://i.pinimg.com/474x/f2/32/f4/f232f4e1223deb2846627050bb48a5d5.jpg"
+            },
+            {
+                title: "Вид Аманохасидатэ",
+                artist: "Сэссю",
+                region: "",
+                year: "Период Муромати",
+                genre: "Живопись (Суми-э)",
+                description: "Топографически точный пейзаж знаменитой песчаной косы («Мост в небо»).",
+                image: "https://avatars.mds.yandex.net/i?id=f76e1d989142198e10f44b31d8277cc5_l-5334983-images-thumbs&n=13"
+            },
+            {
+                title: "Пагода Годзюното",
+                artist: "",
+                region: "Храм Хорюдзи",
+                year: "Период Асука",
+                genre: "Архитектура",
+                description: "Старейшая пятиярусная пагода Японии. Хранит реликвии Будды. Ось мира.",
+                image: "https://i.pinimg.com/736x/8b/80/d0/8b80d02c9ba8a99154ac52f0c2b9d0a9.jpg"
+            },
+            {
+                title: "Юмэдоно (Павильон снов)",
+                artist: "",
+                region: "Храм Хорюдзи",
+                year: "Период Нара",
+                genre: "Архитектура",
+                description: "Восьмиугольный зал. Построен на месте дворца принца Сётоку Тайси.",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/HoryujiYumedono0363edit4.jpg/1280px-HoryujiYumedono0363edit4.jpg"
+            },
+            {
+                title: "Мироку Босацу",
+                artist: "",
+                region: "Храм Хорюдзи",
+                year: "Период Асука",
+                genre: "Скульптура",
+                description: "Бодхисаттва Майтрейя в раздумье. Будущий Будда. Нежная улыбка, одна нога на колене.",
+                image: "https://i.pinimg.com/736x/fe/f2/10/fef210f2c50a98f8bcafe8a20880040e.jpg"
+            },
+            {
+                title: "Триада Якуси Нёрай",
+                artist: "",
+                region: "Храм Якусидзи",
+                year: "Период Нара",
+                genre: "Скульптура (Бронза)",
+                description: "Будда-целитель с Никко и Гакко (Солнечным и Лунным сиянием). Стиль эпохи Тан.",
+                image: "https://tourpedia.ru/wp-content/uploads/2019/04/Якусидзи-Якуси-нёрай.png"
+            },
+            {
+                title: "Цоколь трона Якуси Нёрай",
+                artist: "",
+                region: "Храм Якусидзи",
+                year: "Период Нара",
+                genre: "Деталь",
+                description: "Орнамент с изображением иноземцев и виноградной лозы (влияние Шелкового пути).",
+                image: "https://avatars.mds.yandex.net/i?id=aa3b9b1190d4b9c3cb573fb93a4cfa7de231f8ef-7084103-images-thumbs&n=13"
+            },
+            {
+                title: "Святилище Исэ",
+                artist: "",
+                region: "Префектура Миэ",
+                year: "III–IV вв. (Период Кофун)",
+                genre: "Архитектура",
+                description: "Главная синтоистская святыня. Перестраивается каждые 20 лет. Стиль симмэй-дзукури.",
+                image: "https://avatars.mds.yandex.net/i?id=8800fd5f2dd02f4988e2aea91c1e27bf_l-5665511-images-thumbs&n=13"
+            },
+            {
+                title: "Голова Будды Якуси Нёрай",
+                artist: "",
+                region: "Храм Кофукудзи",
+                year: "Период Нара",
+                genre: "Скульптура (Бронза)",
+                description: "Фрагмент утраченной статуи.",
+                image: "https://i.pinimg.com/originals/44/d5/96/44d5967713024a3c9e3da2028b939bb9.jpg"
+            },
+            {
+                title: "Асура",
+                artist: "",
+                region: "Хорюдзи, (Пагода)",
+                year: "Период Нара",
+                genre: "Скульптура",
+                description: "Трехликий и шестирукий демон-защитник. (раскрашенная глина).",
+                image: "https://i.pinimg.com/736x/db/91/b0/db91b0ef3d308b3c238e3721fa0802db.jpg"
+            },
+            {
+                title: "Тории Ицукусима",
+                artist: "",
+                region: "Святилище Ицукусима",
+                year: "Период Асука",
+                genre: "Архитектура",
+                description: "Знаменитые «плавающие» ворота в воде.",
+                image: "https://avatars.mds.yandex.net/i?id=11f6b8fd9d1a07733358a650a85fb902_l-4354773-images-thumbs&n=13"
+            },
+            {
+                title: "Догу",
+                artist: "",
+                region: "",
+                year: "Период Дзёмон",
+                genre: "Керамика",
+                description: "Глиняная фигурка с глазами-очками (сякоки-догу). Ритуальное назначение.",
+                image: "https://i.pinimg.com/736x/f7/7f/d9/f77fd92ccb4f237767868942f5bac207.jpg"
+            },
+            {
+                title: "Ханива",
+                artist: "",
+                region: "",
+                year: "Период Кофун",
+                genre: "Керамика",
+                description: "Терракотовые цилиндры и фигуры (воины, кони), окружавшие курганы.Полые внутри",
+                image: "https://www.japancuisine.net/wp-content/uploads/2019/10/haniwa-768x521.jpg"
+            },
+            {
+                title: "Ловля сома тыквой",
+                artist: "Дзёсэцу",
+                region: "",
+                year: "Период Муромати",
+                genre: "Живопись (Дзен)",
+                description: "Коан (загадка) в живописи: как поймать скользкую рыбу гладкой тыквой?",
+                image: "https://i.pinimg.com/736x/bb/d8/0b/bbd80bfb9617afdff8a199abbd29d416.jpg"
+            },
+            {
+                title: "Эка отрубает руку",
+                artist: "Сэссю",
+                region: "",
+                year: "Период Муромати",
+                genre: "Живопись",
+                description: "Ученик Эка доказывает Бодхидхарме свою решимость. Суровый дзенский сюжет.",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Bodhidharma.and.Huike-Sesshu.Toyo.jpg/960px-Bodhidharma.and.Huike-Sesshu.Toyo.jpg"
+            },
+            {
+                title: "Сосуд типа Дзёмон",
+                artist: "",
+                region: "",
+                year: "3000-2000 до н.э. (Дзёмон)",
+                genre: "Керамика",
+                description: "Сосуд с богатым лепным декором и ручками",
+                image: "https://ic.pics.livejournal.com/klyos/41889036/668886/668886_800.jpg"
+            },
+            {
+                title: "Бронзовое зеркало",
+                artist: "",
+                region: "",
+                year: "IV–V в. (Кофун)",
+                genre: "Бронза",
+                description: "",
+                image: "https://i.pinimg.com/originals/cb/cc/52/cbcc5240ab4eaec875c852ed9fd387f1.jpg"
+            },
+            {
+                title: "Страж Нио в Тюмон",
+                artist: "",
+                region: "Храм Хорюдзи",
+                year: "Нара",
+                genre: "Скульптура",
+                description: "Древнейшие глиняные статуи стражей в Японии. Стоят в Средних воротах. Глина",
+                image: "https://i.pinimg.com/originals/f0/09/c2/f009c28599acc909603db8365ea6b619.jpg"
+            },
+            {
+                title: "Каннон (Сёриндзи)",
+                artist: "",
+                region: "Монастырь Сёриндзи",
+                year: "Период Нара",
+                genre: "Скульптура (Лак)",
+                description: "Одиннадцатиглавая Каннон. Шедевр сухой лаковой скульптуры с изящными пропорциями.",
+                image: "https://i.pinimg.com/736x/f7/25/ba/f725ba181e55a4d384815fe2d567df7e.jpg"
+            },
+            {
+                title: "Средние ворота (Тюмон)",
+                artist: "",
+                region: "Монастырь Хорюдзи",
+                year: "Период Асука",
+                genre: "Архитектура",
+                description: "",
+                image: "https://i.pinimg.com/originals/c6/79/b6/c679b6a66623e7b276469946c41a0257.jpg"
+            },
+            {
+                title: "Дайбуцу",
+                artist: "",
+                region: "Храм Тодайдзи",
+                year: "Период Нара",
+                genre: "Скульптура (Бронза)",
+                description: "Колоссальная статуя Будды, символ государственной мощи. (Голова перелита позже).",
+                image: "https://avatars.mds.yandex.net/i?id=9bf90803df3cd1c6a92b162f232fce0e_l-4935416-images-thumbs&n=13"
+            },
+            {
+                title: "Фукукэндзяку Каннон",
+                artist: "",
+                region: "Храм Тодайдзи",
+                year: "Период Нара",
+                genre: "Скульптура (Лак)",
+                description: "Восьмирукая Каннон. Техника сухого лака, драгоценная корона.",
+                image: "https://i.pinimg.com/474x/c7/7e/c3/c77ec3b151368292984ef1b34e96db19.jpg"
+            },
+            {
+                title: "Нёирин Каннон",
+                artist: "",
+                region: "Монастырь Канспндзи",
+                year: "Период Хэйан",
+                genre: "Скульптура",
+                description: "Долгое время статуя была «скрытым буддийским изображением», и её открывали для осмотра только раз в 33 года. Поэтому скульптура сохранила первоначальный цвет. Техника сухого лака.",
+                image: "https://avatars.mds.yandex.net/i?id=6e013115458e4a80158750b626aac451_l-5236153-images-thumbs&n=13"
+            },
+            {
+                title: "Захоронение типа Кофун императора Нинтоку",
+                artist: "",
+                region: "",
+                year: "VI в. (Кофун)",
+                genre: "",
+                description: "Захоронение в виде замочной скважены. Символизирует соединение неба(круг) и земли (квадрат)",
+                image: "https://avatars.mds.yandex.net/i?id=ce240a81a73ba0b57d677e6d71097a21381f892e-3964310-images-thumbs&n=13"
+            },
+            {
+                title: "Дай Буцу Дэн",
+                artist: "",
+                region: "Комплекс Тодайдзи",
+                year: "Париод Нара",
+                genre: "Архитектура",
+                description: "Павильон большого Будды. (Тодайдзи - большой восточный монастырь)",
+                image: "https://i.pinimg.com/736x/f8/a6/bd/f8a6bdb70c16d051f305615a8e5f8b2c.jpg"
+            },
+            {
+                title: "Храм Сяридэн",
+                artist: "",
+                region: "Монастырь Энгакудзи",
+                year: "Париод Камакура",
+                genre: "Архитектура",
+                description: "",
+                image: "https://east.totalarch.com/sites/default/files/gallery/japan_denike_43.jpg"
+            },
+            {
+                title: "Нио (Стражи ворот)",
+                artist: "Ункэй и Кайкэй",
+                region: "Храм Тодайдзи",
+                year: "Период Камакура",
+                genre: "Скульптура",
+                description: "Гигантские деревянные стражи в воротах Нандаймон (Тодай-дзи). Пик реализма.",
+                image: "https://i.pinimg.com/736x/6d/59/5f/6d595fc2f9bf19520abe3ff60a1eac9b.jpg"
+            }
+        ];
+
+        let currentCardIndex = 0;
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let quizQuestions = [];
+        let currentFilter = 'all';
+
+        function renderCards() {
+            const grid = document.getElementById('cardsGrid');
+            grid.innerHTML = '';
+            
+            const sortedPaintings = [...paintings].sort((a, b) => a.title.localeCompare(b.title));
+            
+            sortedPaintings.forEach((painting, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-image">
+                        ${painting.image ? `<img src="${painting.image}" alt="${painting.title}" loading="lazy">` : `<div class="image-placeholder">${painting.icon}<br><span style="font-size: 0.3em;">${painting.title}</span></div>`}
+                    </div>
+                    <div class="card-content">
+                        <div class="card-title">${painting.title}</div>
+                        <div class="card-artist">${painting.artist}</div>
+                        <div class="card-year">${painting.year} • ${painting.region}</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCards() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.getElementById('cardsGrid').children;
+            
+            Array.from(cards).forEach((card, index) => {
+                const painting = paintings[index];
+                const matches = painting.title.toLowerCase().includes(searchTerm) ||
+                               painting.artist.toLowerCase().includes(searchTerm) ||
+                               painting.region.toLowerCase().includes(searchTerm) ||
+                               painting.year.includes(searchTerm);
+                
+                card.style.display = matches ? 'block' : 'none';
+            });
+        }
+
+        function loadFlashcard(index) {
+            const painting = paintings[index];
+            document.getElementById('flashcardImage').innerHTML = painting.image ? 
+                `<img src="${painting.image}" alt="${painting.title}" style="width: 100%; height: 100%; object-fit: contain;">` : 
+                `<div class="image-placeholder">${painting.icon}<br><span style="font-size: 0.3em;">${painting.title}</span></div>`;
+            document.getElementById('flashcardTitle').textContent = painting.title;
+            document.getElementById('flashcardArtist').textContent = painting.artist;
+            document.getElementById('flashcardYear').textContent = `${painting.year} • ${painting.region}`;
+            document.getElementById('flashcardDescription').textContent = painting.description;
+            
+            document.getElementById('flashcard').classList.remove('flipped');
+        }
+
+        function flipCard() {
+            document.getElementById('flashcard').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % paintings.length;
+            loadFlashcard(currentCardIndex);
+        }
+
+        function previousCard() {
+            currentCardIndex = (currentCardIndex - 1 + paintings.length) % paintings.length;
+            loadFlashcard(currentCardIndex);
+        }
+
+        function shuffleCards() {
+            currentCardIndex = Math.floor(Math.random() * paintings.length);
+            loadFlashcard(currentCardIndex);
+        }
+
+        // --- ГЕНЕРАЦИЯ ВОПРОСОВ ---
+        function generateQuiz() {
+            quizQuestions = [];
+            const shuffled = [...paintings].sort(() => Math.random() - 0.5);
+            
+            // Функция для получения уникальных неправильных вариантов
+            function getDistinctIncorrect(field, correctValue, count) {
+                const allValues = paintings.map(p => p[field])
+                    .filter(v => v && v.trim() !== ""); // Убираем пустые
+                
+                const distinct = [...new Set(allValues)] // Только уникальные значения
+                    .filter(v => v !== correctValue); // Убираем правильный ответ
+                
+                return distinct.sort(() => Math.random() - 0.5).slice(0, count);
+            }
+
+            // 1. Вопросы "Кто создал этот шедевр?" (Artist)
+            shuffled.forEach(correct => {
+                if (correct.artist && correct.artist.trim() !== "") {
+                    const incorrectNames = getDistinctIncorrect('artist', correct.artist, 3);
+                    
+                    if (incorrectNames.length > 0) {
+                        const incorrectOptions = incorrectNames.map(name => ({ artist: name }));
+                        const options = [correct, ...incorrectOptions].sort(() => Math.random() - 0.5);
+                        
+                        quizQuestions.push({
+                            painting: correct,
+                            options: options,
+                            type: 'artist'
+                        });
+                    }
+                }
+            });
+
+            // 2. Вопросы "Где находится этот шедевр?" (Region)
+            shuffled.forEach(correct => {
+                if (correct.region && correct.region.trim() !== "") {
+                    const incorrectRegions = getDistinctIncorrect('region', correct.region, 3);
+                    
+                    if (incorrectRegions.length > 0) {
+                        const incorrectOptions = incorrectRegions.map(reg => ({ region: reg }));
+                        const options = [correct, ...incorrectOptions].sort(() => Math.random() - 0.5);
+                        
+                        quizQuestions.push({
+                            painting: correct,
+                            options: options,
+                            type: 'region'
+                        });
+                    }
+                }
+            });
+
+            // 3. Вопросы "Название памятника" (Title)
+            shuffled.forEach(correct => {
+                const incorrectTitles = getDistinctIncorrect('title', correct.title, 3);
+                
+                if (incorrectTitles.length > 0) {
+                     const incorrectOptions = incorrectTitles.map(t => ({ title: t }));
+                     const options = [correct, ...incorrectOptions].sort(() => Math.random() - 0.5);
+
+                    quizQuestions.push({
+                        painting: correct,
+                        options: options,
+                        type: 'painting'
+                    });
+                }
+            });
+
+            // Перемешиваем вопросы и берем 60 штук
+            quizQuestions = quizQuestions.sort(() => Math.random() - 0.5).slice(0, 40);
+        }
+
+        // --- ЗАГРУЗКА ВОПРОСА ---
+        function loadQuestion() {
+            if (currentQuizIndex >= quizQuestions.length) {
+                showQuizResults();
+                return;
+            }
+
+            const question = quizQuestions[currentQuizIndex];
+            const questionEl = document.getElementById('quizQuestion');
+            const imageEl = document.getElementById('quizImage');
+            const optionsEl = document.getElementById('quizOptions');
+            const resultEl = document.getElementById('quizResult');
+
+            // Картинка или иконка-заглушка
+            imageEl.innerHTML = question.painting.image ? 
+                `<img src="${question.painting.image}" alt="Угадайте" style="width: 100%; height: 100%; object-fit: contain;">` : 
+                `<div class="image-placeholder">?</div>`;
+            
+            optionsEl.innerHTML = '';
+
+            // Отображение в зависимости от типа вопроса
+            if (question.type === 'artist') {
+                questionEl.textContent = 'Кто создал этот шедевр?';
+                question.options.forEach(option => {
+                    const btn = document.createElement('div');
+                    btn.className = 'quiz-option';
+                    btn.textContent = option.artist;
+                    // Сравниваем текст на кнопке
+                    btn.onclick = () => checkAnswer(btn, option.artist === question.painting.artist);
+                    optionsEl.appendChild(btn);
+                });
+
+            } else if (question.type === 'region') {
+                questionEl.textContent = 'Где находится этот шедевр?';
+                question.options.forEach(option => {
+                    const btn = document.createElement('div');
+                    btn.className = 'quiz-option';
+                    btn.textContent = option.region;
+                    btn.onclick = () => checkAnswer(btn, option.region === question.painting.region);
+                    optionsEl.appendChild(btn);
+                });
+
+            } else {
+                // type === 'painting'
+                const artistInfo = question.painting.artist ? `(${question.painting.artist})` : '';
+                questionEl.textContent = `Как называется этот памятник ${artistInfo}?`;
+                question.options.forEach(option => {
+                    const btn = document.createElement('div');
+                    btn.className = 'quiz-option';
+                    btn.textContent = option.title;
+                    btn.onclick = () => checkAnswer(btn, option.title === question.painting.title);
+                    optionsEl.appendChild(btn);
+                });
+            }
+
+            resultEl.textContent = '';
+            document.getElementById('nextBtn').style.display = 'none';
+            updateScore();
+        }
+
+        // --- ПРОВЕРКА ОТВЕТА ---
+        function checkAnswer(btn, isCorrect) {
+            const options = document.querySelectorAll('.quiz-option');
+            const currentQ = quizQuestions[currentQuizIndex];
+            const resultEl = document.getElementById('quizResult');
+            
+            // Блокируем кнопки
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+
+            if (isCorrect) {
+                btn.classList.add('correct');
+                quizScore++;
+                resultEl.innerHTML = '✅ <span style="color: #556b2f;">Верно!</span>';
+            } else {
+                btn.classList.add('wrong');
+                
+                // Формируем текст правильного ответа
+                let correctText = "";
+                if (currentQ.type === 'artist') correctText = currentQ.painting.artist;
+                else if (currentQ.type === 'region') correctText = currentQ.painting.region;
+                else correctText = currentQ.painting.title;
+
+                resultEl.innerHTML = `❌ <span style="color: #cd5c5c;">Ошибка. Правильно: ${correctText}</span>`;
+                
+                // Подсвечиваем правильную кнопку
+                options.forEach(opt => {
+                    if (opt.textContent === correctText) {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+            
+            document.getElementById('nextBtn').style.display = 'inline-block';
+            updateScore();
+        }
+
+        function nextQuestion() {
+            currentQuizIndex++;
+            loadQuestion();
+        }
+
+        function showQuizResults() {
+            const questionEl = document.getElementById('quizQuestion');
+            const imageEl = document.getElementById('quizImage');
+            const optionsEl = document.getElementById('quizOptions');
+            const resultEl = document.getElementById('quizResult');
+            
+            // Считаем проценты только если были вопросы, чтобы не делить на 0
+            const total = quizQuestions.length || 1; 
+            const percentage = Math.round((quizScore / total) * 100);
+            
+            questionEl.textContent = 'Путешествие завершено!';
+            imageEl.innerHTML = `<div style="font-size: 4em;">🐪</div>`; // Вернул верблюда :)
+            optionsEl.innerHTML = '';
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = '👳‍♂️ Вы почти японец!';
+            } else if (percentage >= 70) {
+                message = '🕌 Отличные знания истории искусств!';
+            } else if (percentage >= 50) {
+                message = '📜 Неплохо, но есть что изучить!';
+            } else {
+                message = '🏺 Курпатова не одобрит!';
+            }
+            
+            resultEl.innerHTML = `
+                <div style="font-size: 1.5em; margin: 20px 0; color: #8b4513;">${message}</div>
+                <div>Ваш результат: ${quizScore} из ${quizQuestions.length} (${percentage}%)</div>
+            `;
+            
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('restartBtn').style.display = 'inline-block';
+        }
+
+        function restartQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            generateQuiz();
+            loadQuestion();
+            document.getElementById('restartBtn').style.display = 'none';
+        }
+
+        function updateScore() {
+            document.getElementById('scoreDisplay').textContent = quizScore;
+            document.getElementById('totalDisplay').textContent = quizQuestions.length;
+        }
+
+        function renderReference() {
+            const grid = document.getElementById('referenceGrid');
+            grid.innerHTML = '';
+            
+            let sortedPaintings = [...paintings];
+            
+            if (currentFilter === 'region') {
+                sortedPaintings.sort((a, b) => a.region.localeCompare(b.region));
+            } else if (currentFilter === 'year') {
+                sortedPaintings.sort((a, b) => a.year.localeCompare(b.year));
+            } else if (currentFilter === 'type') {
+                sortedPaintings.sort((a, b) => a.genre.localeCompare(b.genre));
+            } else {
+                sortedPaintings.sort((a, b) => a.title.localeCompare(b.title));
+            }
+            
+            sortedPaintings.forEach(painting => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-image">
+                        ${painting.image ? `<img src="${painting.image}" alt="${painting.title}" loading="lazy">` : `<div class="image-placeholder">${painting.icon}<br><span style="font-size: 0.3em;">${painting.title}</span></div>`}
+                    </div>
+                    <div class="card-content">
+                        <div class="card-title">${painting.title}</div>
+                        <div class="card-artist">${painting.artist}</div>
+                        <div class="card-year">${painting.year} • ${painting.region}</div>
+                        <p style="margin-top: 12px; color: #887b6f; font-size: 0.9em;">${painting.description}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterReference() {
+            const searchTerm = document.getElementById('refSearchInput').value.toLowerCase();
+            const cards = document.getElementById('referenceGrid').children;
+            
+            Array.from(cards).forEach((card, index) => {
+                const cardText = card.textContent.toLowerCase();
+                card.style.display = cardText.includes(searchTerm) ? 'block' : 'none';
+            });
+        }
+
+        function filterByCategory(category) {
+            currentFilter = category;
+            
+            const buttons = document.querySelectorAll('.reference-filters .filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            renderReference();
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            if (sectionId === 'flashcards') {
+                loadFlashcard(currentCardIndex);
+            } else if (sectionId === 'quiz') {
+                if (quizQuestions.length === 0) {
+                    generateQuiz();
+                    loadQuestion();
+                }
+            } else if (sectionId === 'reference') {
+                renderReference();
+            }
+        }
+
+        renderCards();
+        loadFlashcard(0);
+    </script>
+</body>
+</html>
