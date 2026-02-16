@@ -468,8 +468,27 @@
     </div>
 
 
-    <script>
-        // База данных памятников восточного искусства
+<script>
+        // === НАСТРОЙКИ ХРАНИЛИЩА ===
+        const GH_STORAGE = {
+            owner: "EveKir",
+            repo: "vostok",
+            branch: "main",        // или "master"
+            folder: "storage"
+        };
+
+        const STORAGE_BASE = `https://raw.githubusercontent.com/${GH_STORAGE.owner}/${GH_STORAGE.repo}/refs/heads/${GH_STORAGE.branch}/${GH_STORAGE.folder}/`;
+
+        // Универсальная функция получения URL изображения
+        function getImageUrl(imagePath) {
+            // Если начинается с http:// или https:// — это внешняя ссылка
+            if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                return imagePath;
+            }
+            // Иначе — файл из GitHub storage
+            return STORAGE_BASE + encodeURI(imagePath);
+        }
+
         const paintings = [
             {
                 title: "Монах Гандзин",
@@ -1085,9 +1104,9 @@
         function renderCards() {
             const grid = document.getElementById('cardsGrid');
             grid.innerHTML = '';
-            
+
             const sortedPaintings = [...paintings].sort((a, b) => a.title.localeCompare(b.title));
-            
+
             sortedPaintings.forEach((painting, index) => {
                 const card = document.createElement('div');
                 card.className = 'card';
@@ -1108,28 +1127,28 @@
         function filterCards() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const cards = document.getElementById('cardsGrid').children;
-            
+
             Array.from(cards).forEach((card, index) => {
                 const painting = paintings[index];
                 const matches = painting.title.toLowerCase().includes(searchTerm) ||
                                painting.artist.toLowerCase().includes(searchTerm) ||
                                painting.region.toLowerCase().includes(searchTerm) ||
                                painting.year.includes(searchTerm);
-                
+
                 card.style.display = matches ? 'block' : 'none';
             });
         }
 
         function loadFlashcard(index) {
             const painting = paintings[index];
-            document.getElementById('flashcardImage').innerHTML = painting.image ? 
-                `<img src="${painting.image}" alt="${painting.title}" style="width: 100%; height: 100%; object-fit: contain;">` : 
+            document.getElementById('flashcardImage').innerHTML = painting.image ?
+                `<img src="${painting.image}" alt="${painting.title}" style="width: 100%; height: 100%; object-fit: contain;">` :
                 `<div class="image-placeholder">${painting.icon}<br><span style="font-size: 0.3em;">${painting.title}</span></div>`;
             document.getElementById('flashcardTitle').textContent = painting.title;
             document.getElementById('flashcardArtist').textContent = painting.artist;
             document.getElementById('flashcardYear').textContent = `${painting.year} • ${painting.region}`;
             document.getElementById('flashcardDescription').textContent = painting.description;
-            
+
             document.getElementById('flashcard').classList.remove('flipped');
         }
 
@@ -1156,15 +1175,15 @@
         function generateQuiz() {
             quizQuestions = [];
             const shuffled = [...paintings].sort(() => Math.random() - 0.5);
-            
+
             // Функция для получения уникальных неправильных вариантов
             function getDistinctIncorrect(field, correctValue, count) {
                 const allValues = paintings.map(p => p[field])
                     .filter(v => v && v.trim() !== ""); // Убираем пустые
-                
+
                 const distinct = [...new Set(allValues)] // Только уникальные значения
                     .filter(v => v !== correctValue); // Убираем правильный ответ
-                
+
                 return distinct.sort(() => Math.random() - 0.5).slice(0, count);
             }
 
@@ -1172,11 +1191,11 @@
             shuffled.forEach(correct => {
                 if (correct.artist && correct.artist.trim() !== "") {
                     const incorrectNames = getDistinctIncorrect('artist', correct.artist, 3);
-                    
+
                     if (incorrectNames.length > 0) {
                         const incorrectOptions = incorrectNames.map(name => ({ artist: name }));
                         const options = [correct, ...incorrectOptions].sort(() => Math.random() - 0.5);
-                        
+
                         quizQuestions.push({
                             painting: correct,
                             options: options,
@@ -1190,11 +1209,11 @@
             shuffled.forEach(correct => {
                 if (correct.region && correct.region.trim() !== "") {
                     const incorrectRegions = getDistinctIncorrect('region', correct.region, 3);
-                    
+
                     if (incorrectRegions.length > 0) {
                         const incorrectOptions = incorrectRegions.map(reg => ({ region: reg }));
                         const options = [correct, ...incorrectOptions].sort(() => Math.random() - 0.5);
-                        
+
                         quizQuestions.push({
                             painting: correct,
                             options: options,
@@ -1207,7 +1226,7 @@
             // 3. Вопросы "Название памятника" (Title)
             shuffled.forEach(correct => {
                 const incorrectTitles = getDistinctIncorrect('title', correct.title, 3);
-                
+
                 if (incorrectTitles.length > 0) {
                      const incorrectOptions = incorrectTitles.map(t => ({ title: t }));
                      const options = [correct, ...incorrectOptions].sort(() => Math.random() - 0.5);
@@ -1238,10 +1257,10 @@
             const resultEl = document.getElementById('quizResult');
 
             // Картинка или иконка-заглушка
-            imageEl.innerHTML = question.painting.image ? 
-                `<img src="${question.painting.image}" alt="Угадайте" style="width: 100%; height: 100%; object-fit: contain;">` : 
+            imageEl.innerHTML = question.painting.image ?
+                `<img src="${question.painting.image}" alt="Угадайте" style="width: 100%; height: 100%; object-fit: contain;">` :
                 `<div class="image-placeholder">?</div>`;
-            
+
             optionsEl.innerHTML = '';
 
             // Отображение в зависимости от типа вопроса
@@ -1289,7 +1308,7 @@
             const options = document.querySelectorAll('.quiz-option');
             const currentQ = quizQuestions[currentQuizIndex];
             const resultEl = document.getElementById('quizResult');
-            
+
             // Блокируем кнопки
             options.forEach(opt => {
                 opt.style.pointerEvents = 'none';
@@ -1301,7 +1320,7 @@
                 resultEl.innerHTML = '✅ <span style="color: #556b2f;">Верно!</span>';
             } else {
                 btn.classList.add('wrong');
-                
+
                 // Формируем текст правильного ответа
                 let correctText = "";
                 if (currentQ.type === 'artist') correctText = currentQ.painting.artist;
@@ -1309,7 +1328,7 @@
                 else correctText = currentQ.painting.title;
 
                 resultEl.innerHTML = `❌ <span style="color: #cd5c5c;">Ошибка. Правильно: ${correctText}</span>`;
-                
+
                 // Подсвечиваем правильную кнопку
                 options.forEach(opt => {
                     if (opt.textContent === correctText) {
@@ -1317,7 +1336,7 @@
                     }
                 });
             }
-            
+
             document.getElementById('nextBtn').style.display = 'inline-block';
             updateScore();
         }
@@ -1332,15 +1351,15 @@
             const imageEl = document.getElementById('quizImage');
             const optionsEl = document.getElementById('quizOptions');
             const resultEl = document.getElementById('quizResult');
-            
+
             // Считаем проценты только если были вопросы, чтобы не делить на 0
-            const total = quizQuestions.length || 1; 
+            const total = quizQuestions.length || 1;
             const percentage = Math.round((quizScore / total) * 100);
-            
+
             questionEl.textContent = 'Путешествие завершено!';
             imageEl.innerHTML = `<div style="font-size: 4em;">🐪</div>`; // Вернул верблюда :)
             optionsEl.innerHTML = '';
-            
+
             let message = '';
             if (percentage >= 90) {
                 message = '👳‍♂️ Вы почти японец!';
@@ -1351,12 +1370,12 @@
             } else {
                 message = '🏺 Курпатова не одобрит!';
             }
-            
+
             resultEl.innerHTML = `
                 <div style="font-size: 1.5em; margin: 20px 0; color: #8b4513;">${message}</div>
                 <div>Ваш результат: ${quizScore} из ${quizQuestions.length} (${percentage}%)</div>
             `;
-            
+
             document.getElementById('nextBtn').style.display = 'none';
             document.getElementById('restartBtn').style.display = 'inline-block';
         }
@@ -1377,9 +1396,9 @@
         function renderReference() {
             const grid = document.getElementById('referenceGrid');
             grid.innerHTML = '';
-            
+
             let sortedPaintings = [...paintings];
-            
+
             if (currentFilter === 'region') {
                 sortedPaintings.sort((a, b) => a.region.localeCompare(b.region));
             } else if (currentFilter === 'year') {
@@ -1389,7 +1408,7 @@
             } else {
                 sortedPaintings.sort((a, b) => a.title.localeCompare(b.title));
             }
-            
+
             sortedPaintings.forEach(painting => {
                 const card = document.createElement('div');
                 card.className = 'card';
@@ -1411,7 +1430,7 @@
         function filterReference() {
             const searchTerm = document.getElementById('refSearchInput').value.toLowerCase();
             const cards = document.getElementById('referenceGrid').children;
-            
+
             Array.from(cards).forEach((card, index) => {
                 const cardText = card.textContent.toLowerCase();
                 card.style.display = cardText.includes(searchTerm) ? 'block' : 'none';
@@ -1420,11 +1439,11 @@
 
         function filterByCategory(category) {
             currentFilter = category;
-            
+
             const buttons = document.querySelectorAll('.reference-filters .filter-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            
+
             renderReference();
         }
 
@@ -1433,12 +1452,12 @@
                 section.classList.remove('active');
             });
             document.getElementById(sectionId).classList.add('active');
-            
+
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
-            
+
             if (sectionId === 'flashcards') {
                 loadFlashcard(currentCardIndex);
             } else if (sectionId === 'quiz') {
