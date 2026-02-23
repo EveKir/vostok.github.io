@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -477,17 +478,18 @@
             folder: "storage"
         };
 
-        const STORAGE_BASE = `https://raw.githubusercontent.com/${GH_STORAGE.owner}/${GH_STORAGE.repo}/refs/heads/${GH_STORAGE.branch}/${GH_STORAGE.folder}/`;
+        const STORAGE_BASE = `https://raw.githubusercontent.com/${GH_STORAGE.owner}/${GH_STORAGE.repo}/refs/heads/${GH_STORAGE.branch}/`;
 
         // Универсальная функция получения URL изображения
         function getImageUrl(imagePath) {
-            // Если начинается с http:// или https:// — это внешняя ссылка
-            if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-                return imagePath;
+                if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                    return imagePath;
+                }
+                // Encode for path safety but keep spaces unencoded for GitHub raw
+                const encodedPath = encodeURI(imagePath).replace(/%2520/g, '%20');
+                return STORAGE_BASE + encodedPath;
             }
-            // Иначе — файл из GitHub storage
-            return STORAGE_BASE + encodeURI(imagePath);
-        }
+
 
         const paintings = [
             {
@@ -599,7 +601,7 @@
                 image: "https://i.pinimg.com/originals/3c/a2/b2/3ca2b28692a3fe903205d78959571a61.jpg"
             },
             {
-                title: "Восточная пагода",
+                title: "Восточная пагода (Сандзюното)",
                 artist: "",
                 region: "Святилище Якусидзи",
                 year: "Период Нара",
@@ -851,12 +853,12 @@
                 image: "https://i.pinimg.com/originals/66/ff/95/66ff951d3ae16fcf021fe0e15cdbd306.jpg"
             },
             {
-                title: "Кудара Каннон",
+                title: "Гудзэ Каннон",
                 artist: "",
                 region: "Храм Хорюдзи",
                 year: "Период Асука",
                 genre: "Скульптура (Дерево)",
-                description: "Высокая стройная фигура («Кудара» = Пэкче, Корея). Изящный силуэт.Ласточкин хвост",
+                description: "Высокая стройная фигура. Изящный силуэт.Ласточкин хвост",
                 image: "https://i.pinimg.com/474x/f2/32/f4/f232f4e1223deb2846627050bb48a5d5.jpg"
             },
             {
@@ -1085,6 +1087,213 @@
                 image: "https://east.totalarch.com/sites/default/files/gallery/japan_denike_43.jpg"
             },
             {
+                title: "Итидзи Кинрин",
+                artist: "",
+                region: "",
+                year: "Париод Камакура",
+                genre: "",
+                description: "",
+                image: "Япония/Камакура/Ichiji%20Kinrin%20(Ekaaksarausnisacakra)%2CFormerly%20owned%20by%20the%20Hara%2C13th%20century.jpg"
+            },
+            {
+                title: "Статуя Будды в храме Бёдоин",
+                artist: "",
+                region: "",
+                year: "Париод Хэйан",
+                genre: "",
+                description: "",
+                image: "Япония/Хейян/Buddha%20statue%20in%20Byodoin%20temple%202.jpg"
+            },
+            {
+                title: "Фуген Босацу",
+                artist: "",
+                region: "",
+                year: "Париод Хэйан",
+                genre: "",
+                description: "",
+                image: "Япония/Хейян/Fugen%20Bosatsu%20(Samantabhadra)%2C12th%20century..jpg"
+            },
+            {
+                title: "Гаки Дзоси (Свиток голодных духов)",
+                artist: "",
+                region: "",
+                year: "Париод Хэйан",
+                genre: "",
+                description: "",
+                image: "Япония/Хейян/Gaki%20Zoshi%20(Scroll%20of%20hungry%20ghosts)%2C12th%20century.jpg"
+            },
+            {
+                title: "Дзюнтей Каннон (Канди)",
+                artist: "",
+                region: "",
+                year: "Париод Хэйан",
+                genre: "",
+                description: "",
+                image: "Япония/Хейян/Senju%20Kannon%20(Sahasrabhuja)%2CFormerly%20owned%20by%20the%20Kawasaki%2CHeian%20Period%2C%2012th%20century..jpg"
+            },
+            {
+                title: "Сэндзю Каннон",
+                artist: "",
+                region: "",
+                year: "Париод Хэйан",
+                genre: "",
+                description: "",
+                image: "https://east.totalarch.com/sites/default/files/gallery/japan_denike_43.jpg"
+            },
+            {
+                title: "Гюдзэ-Каннон. Фрагмент",
+                artist: "",
+                region: "",
+                year: "Париод Асука",
+                genre: "",
+                description: "",
+                image: "Япония/Иск.срв.Востока/057%20Статуя%20Гюдзэ-Каннон.%20фрагмент.%20Асука.jpg"
+            },
+            {
+                title: "Пейзаж",
+                artist: "Кано Эйтоку",
+                region: "",
+                year: "Париод Момояма",
+                genre: "",
+                description: "",
+                image: "Япония/Иск.%20Срв.%20%20Вост.%20по%20периодам.%20Япония/Момояма%20(1573-1603)/011%20Кано%20Эйтоку%20(1543-1590)%20Пейзаж.jpg"
+            },
+            {
+                title: "Сосна и камелии",
+                artist: "Кайхо Юсё ",
+                region: "",
+                year: "Париод Момояма",
+                genre: "",
+                description: "",
+                image: "Япония/Иск.%20Срв.%20%20Вост.%20по%20периодам.%20Япония/Момояма%20(1573-1603)/013%20Кайхо%20Юсё%20(1533-1615)%20Сосна%20и%20камелии%2016%20в..jpg"
+            },
+            {
+                title: "Цветущее сливовое дерево",
+                artist: "Кайхо Юсё",
+                region: "",
+                year: "Париод Момояма",
+                genre: "",
+                description: "",
+                image: "Япония/Иск.%20Срв.%20%20Вост.%20по%20периодам.%20Япония/Момояма%20(1573-1603)/020%20Кайхо%20Юсё%20(1533-1615)%20Цветущее%20дерево%20сливы.jpg"
+            },
+            {
+                title: "Сосны",
+                artist: "Хасэгава Тохаку",
+                region: "",
+                year: "Париод Момояма",
+                genre: "",
+                description: "",
+                image: "Япония/Иск.%20Срв.%20%20Вост.%20по%20периодам.%20Япония/Момояма%20(1573-1603)/024%20Хасэгава%20Тохаку%20(1539-1610)%20Сосны%20кон.%2016%20в..jpg"
+            },
+            {
+                title: "Кипарис",
+                artist: "Кано Эйтоку",
+                region: "",
+                year: "Париод Момояма",
+                genre: "",
+                description: "У Эйтоку часто золотые облака",
+                image: "Япония/Иск.%20Срв.%20%20Вост.%20по%20периодам.%20Япония/Момояма%20(1573-1603)/03%20Кано%20Эйтоку%20(1543-1590).%20Кипарис%20кон.%2016%20в..jpg"
+            },
+            {
+                title: "Цветы и птицы 4 сезонов",
+                artist: "Кано Сансэцу",
+                region: "",
+                year: "Период Момояма",
+                genre: "",
+                description: "",
+                image: "Япония/Иск.%20Срв.%20%20Вост.%20по%20периодам.%20Япония/Момояма%20(1573-1603)/030%20Кано%20Сансэцу%20(1590-1651)%20Цветы%20и%20птицы%20%204%20сезонов.jpg"
+            },
+            {
+                title: "Дикие гуси",
+                artist: "Кано Сансэцу",
+                region: "",
+                year: "Период Момояма",
+                genre: "",
+                description: "",
+                image: "Япония/Иск.%20Срв.%20%20Вост.%20по%20периодам.%20Япония/Момояма%20(1573-1603)/032%20Кано%20Сансэцу%20(1590-1651)%20Дикие%20гуси.jpg"
+            },
+            {
+                title: "Цветы и птицы в весенем пейзаже",
+                artist: "Кано Мотонобу",
+                region: "",
+                year: "Период Муромати",
+                genre: "",
+                description: "",
+                image: "Япония/Иск.%20Срв.%20%20Вост.%20по%20периодам.%20Япония/Муромати%20(1333-1573)/013%20Кано%20Мотонобу%20(1476-1559).%20Цветы%20и%20птицы%20в%20весенем%20пейзаже.%20ок.%201500.jpg"
+            },
+            {
+                title: "Волны Мацусима",
+                artist: "Огата Корин",
+                region: "",
+                year: "Период Эдо",
+                genre: "",
+                description: "",
+                image: "Япония/Иск.%20Срв.%20%20Вост.%20по%20периодам.%20Япония/Эдо%20(1603-1868)/033%20Огата%20Корин%20(1658-1716)%20Волны%20Мацусима.%2018%20в.%206-ти%20створч.ширма.Тушь%2C%20бумага.jpg"
+            },
+            {
+                title: "Ворота квартала Ёсивара",
+                artist: "Масанобу Окумура",
+                region: "",
+                year: "Период Эдо",
+                genre: "",
+                description: "",
+                image: "Япония/Иск.%20Срв.%20%20Вост.%20по%20периодам.%20Япония/Эдо%20(1603-1868)/040%20Масанобу%20Окумура%20(1686-1764)%20Ворота%20квартала%20Ёсивара.jpg"
+            },
+            {
+                title: "Укиё-э",
+                artist: "Судзуки Харунобу",
+                region: "",
+                year: "Период Эдо",
+                genre: "",
+                description: "",
+                image: "Япония/Иск.%20Срв.%20%20Вост.%20по%20периодам.%20Япония/Эдо%20(1603-1868)/041%20Судзуки%20Харунобу%20(1725-1770)%20Укиё-э.jpg"
+            },
+            {
+                title: "Укиё-э",
+                artist: "Судзуки Харунобу",
+                region: "",
+                year: "Период Эдо",
+                genre: "",
+                description: "",
+                image: "Япония/Иск.%20Срв.%20%20Вост.%20по%20периодам.%20Япония/Эдо%20(1603-1868)/042%20Судзуки%20Харунобу%20(1725-1770)%20Укиё-э.jpg"
+            },
+            {
+                title: "Мост Маннэн в Фукугава из сер. 36 вид. Фудзи",
+                artist: "Кацусика Хокусай",
+                region: "",
+                year: "Период Эдо",
+                genre: "",
+                description: "",
+                image: "Япония/Иск.%20Срв.%20%20Вост.%20по%20периодам.%20Япония/Эдо%20(1603-1868)/053%20Кацусика%20Хокусай%20(1760-1849)%20Мост%20Маннэн%20в%20Фукугава%201828%20г.Укиё-э%20из%20сер.%2036%20вид.%20Фудзи.jpg"
+            },
+            {
+                title: "Юи из серии 53 станции дороги Токайдо",
+                artist: "Андо Хиросигэ",
+                region: "",
+                year: "Период Эдо",
+                genre: "",
+                description: "",
+                image: "Япония/Иск.%20Срв.%20%20Вост.%20по%20периодам.%20Япония/Эдо%20(1603-1868)/057%20Андо%20Хиросигэ%20(1797-1858)Юи%201831-34%20укиё-э%20из%20серии%2053%20станции%20дороги%20Токайдо%20или%20Хоэйдо%20Токайдо.jpg"
+            },
+            {
+                title: "Сокровищница Сёсоин",
+                artist: "",
+                region: "",
+                year: "Период Нара",
+                genre: "Архитектура",
+                description: "Построено в стиле адзэкура",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Shoso-in.jpg/1280px-Shoso-in.jpg"
+            },
+            {
+                title: "Хоккэдо или Сангацудо",
+                artist: "",
+                region: "",
+                year: "Период Нара",
+                genre: "Архитектура",
+                description: "",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/NaraTodaiji0252.jpg/1200px-NaraTodaiji0252.jpg"
+            },
+            {
                 title: "Нио (Стражи ворот)",
                 artist: "Ункэй и Кайкэй",
                 region: "Храм Тодайдзи",
@@ -1112,7 +1321,7 @@
                 card.className = 'card';
                 card.innerHTML = `
                     <div class="card-image">
-                        ${painting.image ? `<img src="${painting.image}" alt="${painting.title}" loading="lazy">` : `<div class="image-placeholder">${painting.icon}<br><span style="font-size: 0.3em;">${painting.title}</span></div>`}
+                        ${painting.image ? `<img src="${getImageUrl(painting.image)}" alt="${painting.title}" loading="lazy">` : `<div class="image-placeholder">${painting.icon}<br><span style="font-size: 0.3em;">${painting.title}</span></div>`}
                     </div>
                     <div class="card-content">
                         <div class="card-title">${painting.title}</div>
@@ -1142,7 +1351,7 @@
         function loadFlashcard(index) {
             const painting = paintings[index];
             document.getElementById('flashcardImage').innerHTML = painting.image ?
-                `<img src="${painting.image}" alt="${painting.title}" style="width: 100%; height: 100%; object-fit: contain;">` :
+                `<img src="${getImageUrl(painting.image)}" alt="${painting.title}" style="width: 100%; height: 100%; object-fit: contain;">` :
                 `<div class="image-placeholder">${painting.icon}<br><span style="font-size: 0.3em;">${painting.title}</span></div>`;
             document.getElementById('flashcardTitle').textContent = painting.title;
             document.getElementById('flashcardArtist').textContent = painting.artist;
@@ -1258,7 +1467,7 @@
 
             // Картинка или иконка-заглушка
             imageEl.innerHTML = question.painting.image ?
-                `<img src="${question.painting.image}" alt="Угадайте" style="width: 100%; height: 100%; object-fit: contain;">` :
+                `<img src="${getImageUrl(question.painting.image)}" alt="Угадайте" style="width: 100%; height: 100%; object-fit: contain;">` :
                 `<div class="image-placeholder">?</div>`;
 
             optionsEl.innerHTML = '';
@@ -1414,7 +1623,7 @@
                 card.className = 'card';
                 card.innerHTML = `
                     <div class="card-image">
-                        ${painting.image ? `<img src="${painting.image}" alt="${painting.title}" loading="lazy">` : `<div class="image-placeholder">${painting.icon}<br><span style="font-size: 0.3em;">${painting.title}</span></div>`}
+                        ${painting.image ? `<img src="${getImageUrl(painting.image)}" alt="${painting.title}" loading="lazy">` : `<div class="image-placeholder">${painting.icon}<br><span style="font-size: 0.3em;">${painting.title}</span></div>`}
                     </div>
                     <div class="card-content">
                         <div class="card-title">${painting.title}</div>
