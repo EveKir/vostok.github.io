@@ -479,14 +479,13 @@
         };
 
         const STORAGE_BASE = `https://raw.githubusercontent.com/${GH_STORAGE.owner}/${GH_STORAGE.repo}/refs/heads/${GH_STORAGE.branch}/`;
-
         // Универсальная функция получения URL изображения
         function getImageUrl(imagePath) {
                 if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
                     return imagePath;
                 }
                 // Encode for path safety but keep spaces unencoded for GitHub raw
-                const encodedPath = encodeURI(imagePath).replace(/%2520/g, '%20');
+                const encodedPath = encodeURI(imagePath).replace(/%252/g, '%2');
                 return STORAGE_BASE + encodedPath;
             }
 
